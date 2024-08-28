@@ -1,0 +1,30 @@
+como ele faz pra trasformar em json: ao ter o prefixo "get" ele se torna um json
+é chamado como campo virtual, e só é criado em tempo de execução
+metodo
+url
+parametros
+headers
+corpo
+3 são obrigatorios
+metodo url headers
+crud
+create - read - update - delete
+post - get - put - delete
+CREATE - PostMapping - cria algum recurso
+READ - GetMapping - buscar algo
+Update - PutMapping - atualiza completa
+DELETE - DeleteMapping - deletar algo
+o spring é responsavel por insranciar esse objeto e atribuir os atriuts que chegam no json
+no final, temos m objeto com os valores via setter
+@RequestBody
+@PathVariable
+Conexão com banco
+precisa jpa para pegar data and Hibernate
+@Entity
+@Id
+@GeneratedValue(strategy = GenerationType.IDENTITY)
+class = repository: extends JpaRepository<T, id>
+@Autowired - para intanciar interface, o spring faz isso
+optional<T> algo = algo.findById(id) : verifica se a algo no banco
+return musicaRepository.findById(id).orElse(null); : para verificar se a algo no banco atravez de um id, assim ele n vai retornar um nullPointException
+repository.save(); - para salvar e atualizar, porem para atualizar precisa de um if para verificar se existe o id no banco
