@@ -1,9 +1,9 @@
 package school.sptech.projeto_http_code;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import org.springframework.cglib.core.Local;
+
+import java.time.LocalDate;
 
 @Entity
 public class Livro {
@@ -13,15 +13,18 @@ public class Livro {
     private Integer id;
     private String nome;
     private String autor;
-    private String classificacao;
+    private Integer classificacao;
+    @Column(name = "data_lancamento")
+    private LocalDate dataLancamento;
 
     public Livro(){}
 
-    public Livro(Integer id, String nome, String autor, String classificacao) {
+    public Livro(Integer id, String nome, String autor, Integer classificacao, LocalDate dataLancamento) {
         this.id = id;
         this.nome = nome;
         this.autor = autor;
         this.classificacao = classificacao;
+        this.dataLancamento = dataLancamento;
     }
 
     public Integer getId() {
@@ -48,11 +51,19 @@ public class Livro {
         this.autor = autor;
     }
 
-    public String getClassificacao() {
+    public Integer getClassificacao() {
         return classificacao;
     }
 
-    public void setClassificacao(String classificacao) {
+    public void setClassificacao(Integer classificacao) {
         this.classificacao = classificacao;
+    }
+
+    public LocalDate getDataLancamento() {
+        return dataLancamento;
+    }
+
+    public void setDataLancamento(LocalDate dataLancamento) {
+        this.dataLancamento = dataLancamento;
     }
 }
