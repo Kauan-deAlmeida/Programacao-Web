@@ -1,0 +1,6 @@
+school\sptech\demo\exception\ConflitoException.class
+school\sptech\demo\service\EmpresaService.class
+school\sptech\demo\DemoApplication.class
+school\sptech\demo\exception\EntidadeNaoEncontradaException.class
+school\sptech\demo\repository\EmpresaRepository.class
+school\sptech\demo\entity\Empresa.class

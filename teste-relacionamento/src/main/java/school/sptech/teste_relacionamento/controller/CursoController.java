@@ -1,8 +1,13 @@
 package school.sptech.teste_relacionamento.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import school.sptech.teste_relacionamento.dto.curso.CursoCriacaoRequisicaoDto;
+import school.sptech.teste_relacionamento.dto.curso.CursoDetalheRespostaDto;
+import school.sptech.teste_relacionamento.dto.curso.CursoMapper;
+import school.sptech.teste_relacionamento.dto.curso.CursoResumoRespostaDto;
 import school.sptech.teste_relacionamento.entity.Curso;
 import school.sptech.teste_relacionamento.service.CursoService;
 
@@ -10,31 +15,37 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/cursos")
+@RequiredArgsConstructor
 public class CursoController {
 
-    @Autowired
-    private CursoService cursoService;
+    private final CursoService cursoService;
 
     @PostMapping
-    public ResponseEntity<Curso> cadastro(
-            @RequestBody Curso curso
+        public ResponseEntity<CursoDetalheRespostaDto> cadastro(
+            @RequestBody CursoCriacaoRequisicaoDto cursoCriacaoDto
     ) {
-        Curso cursoSalvo = this.cursoService.cadastrar(curso);
-        return ResponseEntity.status(201).body(cursoSalvo);
+        Curso entidade = CursoMapper.toCriacaoEntity(cursoCriacaoDto);
+        Curso cursoSalvo = this.cursoService.cadastrar(entidade);
+        CursoDetalheRespostaDto dtoResposta = CursoMapper.toDetalheDto(cursoSalvo);
+
+//        return ResponseEntity.status(201).body(dtoResposta);
+        return ResponseEntity.status(201).body(CursoMapper.toDetalheDto(cursoService.cadastrar(CursoMapper.toCriacaoEntity(cursoCriacaoDto))));
     }
 
     @GetMapping
-    public ResponseEntity<List<Curso>> listagem() {
+    @ApiResponse(description = "204, se tiver dados retorna 200")
+    public ResponseEntity<List<CursoResumoRespostaDto>> listagem() {
         List<Curso> listagem = cursoService.listar();
         if (listagem.isEmpty()) {
             return ResponseEntity.status(204).build();
         }
-        return ResponseEntity.status(200).body(listagem);
+
+        return ResponseEntity.status(200).body(listagem.stream().map(CursoMapper::toResumoDto).toList());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Curso> buscarPorId(@PathVariable Integer id) {
+    public ResponseEntity<CursoDetalheRespostaDto> buscarPorId(@PathVariable Integer id) {
         Curso curso = this.cursoService.buscarPorId(id);
-        return ResponseEntity.status(200).body(curso);
+        return ResponseEntity.status(200).body(CursoMapper.toDetalheDto(curso));
     }
 }
